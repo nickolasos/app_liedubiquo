@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/shared_preferences/intermediates/res/merged/release/values-mr/values-mr.xml",
+            "map": [
+                {
+                    "source": "/home/nickolas/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/1a33b61bf4c92e6f3b60e85085469627/res/values-mr/values-mr.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-mr/values-mr.xml",
+            "map": [
+                {
+                    "source": "/home/nickolas/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/1a33b61bf4c92e6f3b60e85085469627/res/values-mr/values-mr.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}

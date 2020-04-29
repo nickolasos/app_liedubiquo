@@ -1,0 +1,4 @@
+# Referenced at /home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/app/intermediates/merged_manifests/release/processReleaseManifest/merged/AndroidManifest.xml:26
+-keep class com.example.day14.MainActivity { <init>(...); }
+# Referenced at /home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/app/intermediates/merged_manifests/release/processReleaseManifest/merged/AndroidManifest.xml:21
+-keep class io.flutter.app.FlutterApplication { <init>(...); }

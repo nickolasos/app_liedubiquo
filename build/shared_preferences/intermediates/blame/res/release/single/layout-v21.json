@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/shared_preferences/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml",
+        "source": "/home/nickolas/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/1a33b61bf4c92e6f3b60e85085469627/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/shared_preferences/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml",
+        "source": "/home/nickolas/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/1a33b61bf4c92e6f3b60e85085469627/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/shared_preferences/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml",
+        "source": "/home/nickolas/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/1a33b61bf4c92e6f3b60e85085469627/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/home/nickolas/UI Flutter/Flutter-Login-Page-3-master/build/shared_preferences/intermediates/res/merged/release/layout-v21/notification_action.xml",
+        "source": "/home/nickolas/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/1a33b61bf4c92e6f3b60e85085469627/res/layout-v21/notification_action.xml"
+    }
+]
