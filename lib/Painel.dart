@@ -57,7 +57,62 @@ class _PainelState extends State<Painel> {
 
     TextEditingController _descricaoSimplificadaController = TextEditingController();
     TextEditingController _descricaoCompletaController = TextEditingController();
+    TextEditingController _conteudoDescritivoController = TextEditingController();
     List<InteresseAprendizagem> l_interesses = List<InteresseAprendizagem>();
+
+    _exibirTelaConteudoDescritivoCadastro({InteresseAprendizagem interesse}){
+      showDialog(
+          context: context,
+          builder: (context){
+            return AlertDialog(
+
+              title: Text("Inserir conteudo descritivo"),
+              content: SingleChildScrollView(
+                child: Column(
+
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+
+                  TextField(
+
+
+                  controller: _conteudoDescritivoController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: "Conteudo :",
+
+                  ),
+
+                ),
+              ],
+            ),
+            ),
+            actions: <Widget>[
+            FlatButton(
+              onPressed: ()=>Navigator.pop(context),
+              child: Text("Cancelar")
+            ),
+            FlatButton(
+            onPressed: (){
+            //salvar
+            _salvarConteudoDescritivo(interesse: interesse);
+            },
+            child: Text("Salvar")
+            ),
+            /*
+              FloatingActionButton(
+                child: Icon(Icons.mic),
+                onPressed: (){},
+                //mini: true,
+                backgroundColor: Colors.lightBlue,
+              ),
+              */
+
+            ],
+            );
+          }
+      );
+    }
 
   _exibirTelaCadastro({InteresseAprendizagem interesse}){
 
@@ -91,13 +146,7 @@ class _PainelState extends State<Painel> {
                   decoration: InputDecoration(
                     labelText: "Descrição simplificada",
                     //hintText: "Digite a descrição simplificada ..."
-                    suffixIcon: IconButton(
-                      onPressed: () => {},
-                      icon: Icon(
-                          Icons.mic,
-                          color: Colors.lightBlue,
-                      ),
-                    ),
+
                   ),
 
                 ),
@@ -109,18 +158,7 @@ class _PainelState extends State<Painel> {
                   controller: _descricaoCompletaController,
                   decoration: InputDecoration(
                       labelText: "Descrição completa",
-                    suffixIcon: IconButton(
-                      onPressed: () => {
-                        if(_isAvailable && !_isListening){
-                          //_speechRecognition.listen(locale: "en_US").then((result)=>print(resultText))
 
-                        }
-                      },
-                      icon: Icon(
-                        Icons.mic,
-                        color: Colors.lightBlue,
-                      ),
-                    ),
 
                       //hintText: "Digite a descrição completa ..."
                   ),
@@ -157,7 +195,7 @@ class _PainelState extends State<Painel> {
     Future<List<InteresseAprendizagem>> recuperaInteresses() async{
 
       List<InteresseAprendizagem> lista = List();
-      String url_certa ="http://apipg.ddns.net/api/interesse/${widget.memberID}";
+      String url_certa ="http://200.137.66.25:8080/api/interesse/${widget.memberID}";
       http.Response response2 = await http.get(url_certa);
       //print(response2);
       var dadosJson2 = json.decode(response2.body);
@@ -180,16 +218,18 @@ class _PainelState extends State<Painel> {
       String descricaoCompleta = _descricaoCompletaController.text;
       String idPessoa = widget.memberID.toString();
       if(interesse == null){
-        String url ="http://apipg.ddns.net/api/interesse/inserir";
+        String url ="http://200.137.66.25:8080/api/interesse/inserir";
         Map<String, dynamic> corpo = {'idPessoa': idPessoa,'descricaoSimplificada': descricaoSimplificada,'descricaoCompleta':descricaoCompleta};
 
         http.Response response = await http.post(url,body: corpo);
+        //print(idPessoa);
       }else{
-        String url ="http://apipg.ddns.net/api/interesse/alterar";
+        String url ="http://200.137.66.25:8080/api/interesse/alterar";
         Map<String, dynamic> corpo = {'id': interesse.idInteresseAprendizagem.toString(),'descricaoSimplificada': descricaoSimplificada,'descricaoCompleta':descricaoCompleta};
 
         http.Response response = await http.post(url,body: corpo);
       }
+
 
 
 
@@ -201,9 +241,24 @@ class _PainelState extends State<Painel> {
      setState(() {});
     }
 
+  _salvarConteudoDescritivo({InteresseAprendizagem interesse}) async{
+    String conteudo = _conteudoDescritivoController.text;
+    String origem = "conteudo descritivo";
+    String link="";
+
+    String url ="http://200.137.66.25:8080/api/conteudo/inserir";
+    Map<String, dynamic> corpo = {'conteudo':conteudo,'linkArquivo':link,
+      'origem':origem,'idInteresseAprendizagem': interesse.idInteresseAprendizagem.toString(),'idConteudoDescritivo':'1'};
+
+    http.Response response = await http.post(url,body: corpo);
+
+    Navigator.pop(context);
+    setState(() {});
+  }
+
     _remove(InteresseAprendizagem interesse) async{
-      String url ="http://apipg.ddns.net/api/interesse/apagar/${interesse.idInteresseAprendizagem}";
-      print(interesse.idInteresseAprendizagem);
+      String url ="http://200.137.66.25:8080/api/interesse/apagar/${interesse.idInteresseAprendizagem}";
+      //print(interesse.idInteresseAprendizagem);
       http.Response response = await http.get(url);
       Navigator.pop(context);
       setState(() {});
@@ -277,10 +332,10 @@ class _PainelState extends State<Painel> {
             case ConnectionState.active :
             case ConnectionState.done :
               if( snapshot.hasError ){
-                print("lista: Erro ao carregar ");
+                //print("lista: Erro ao carregar ");
               }else {
 
-                print("lista: carregou!! ");
+                //print("lista: carregou!! ");
                 return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index){
@@ -315,6 +370,18 @@ class _PainelState extends State<Painel> {
                                   child: Icon(
                                       Icons.edit,
                                       color: Colors.green,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  _exibirTelaConteudoDescritivoCadastro(interesse: post);
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Icon(
+                                    Icons.add_circle_outline,
+                                    color: Colors.blue,
                                   ),
                                 ),
                               ),

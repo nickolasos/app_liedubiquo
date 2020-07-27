@@ -24,7 +24,7 @@ set email(String value) {
 
 validadeMember(String email,String password) async{
 
-  String url ="http://apipg.ddns.net/api/login";
+  String url ="http://200.137.66.25:8080/api/login";
   http.Response response = await http.post(
     url,
     headers: {

@@ -6,6 +6,8 @@ import 'conteudo.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:charcode/html_entity.dart';
+
 
 class PainelConteudo extends StatefulWidget {
   @override
@@ -26,6 +28,8 @@ class _PainelConteudoState extends State<PainelConteudo> {
   TextEditingController _origemController = TextEditingController();
   List<Conteudo> l_interesses = List<Conteudo>();
 
+  int _escolhaUsuario = 1;
+
   _exibirTelaCadastro({Conteudo interesse}){
 
     String titulo ="";
@@ -42,16 +46,104 @@ class _PainelConteudoState extends State<PainelConteudo> {
       _linkController.text = interesse.linkArquivo;
       _origemController.text =interesse.origem;
     }
+
     showDialog(
 
         context: context,
         builder: (context){
+        return StatefulBuilder(
+          builder: (context,setState){
+            return AlertDialog(
+              title: Text("${titulo} Conteúdo"),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text("Descrição"),
+                        Radio(
+                            value: 1,
+                            groupValue: _escolhaUsuario,
+                            onChanged: (int escolha){
+                              setState(()  => _escolhaUsuario = escolha );
+                              print("resultado : "+escolha.toString());
+                            }
+
+                        ),
+                        Text("Link"),
+                        Radio(
+                            value: 2,
+                            groupValue: _escolhaUsuario,
+                            onChanged: (int escolha){
+                              setState(()  => _escolhaUsuario = escolha );
+                              print("resultado : "+escolha.toString());
+                            }
+                        ),
+                      ],
+                    ),
+
+                    TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 3,
+                      controller: _conteudoController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        labelText: "Conteúdo",
+                        //hintText: "Digite a descrição simplificada ..."
+                      ),
+                    ),
+
+
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: ()=>Navigator.pop(context),
+                    child: Text("Cancelar")
+                ),
+                FlatButton(
+                    onPressed: (){
+                      //salvar
+                      _salvarInteresse(interesse: interesse);
+                    },
+                    child: Text("Salvar")
+                )
+              ],
+            );
+          },
+        );
           return AlertDialog(
             title: Text("${titulo} Conteúdo"),
             content: SingleChildScrollView(
               child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text("Descrição"),
+                    Radio(
+                        value: 1,
+                        groupValue: _escolhaUsuario,
+                        onChanged: (int escolha){
+                          setState(()  => _escolhaUsuario = escolha );
+                          print("resultado : "+escolha.toString());
+                        }
+
+                    ),
+                    Text("Link"),
+                    Radio(
+                        value: 2,
+                        groupValue: _escolhaUsuario,
+                        onChanged: (int escolha){
+                          setState(()  => _escolhaUsuario = escolha );
+                          print("resultado : "+escolha.toString());
+                        }
+                    ),
+                  ],
+                ),
+
                 TextField(
                   keyboardType: TextInputType.multiline,
                   maxLines: 3,
@@ -102,7 +194,7 @@ class _PainelConteudoState extends State<PainelConteudo> {
   Future<List<Conteudo>> recuperaInteresses() async{
 
     List<Conteudo> lista = List();
-    String url_certa ="http://apipg.ddns.net/api/conteudo/${widget.interesseID}";
+    String url_certa ="http://200.137.66.25:8080/api/conteudo/${widget.interesseID}";
     http.Response response2 = await http.get(url_certa);
     //print(response2);
     var dadosJson2 = json.decode(response2.body);
@@ -113,7 +205,7 @@ class _PainelConteudoState extends State<PainelConteudo> {
     List<Conteudo> interesses = List();
     for( var interesse in dadosJson2 ){
       Conteudo p = Conteudo(interesse["idConteudo"],interesse["conteudo"],interesse["dataInsercao"],
-          interesse["linkArquivo"],interesse["origem"],widget.interesseID,);
+          interesse["linkArquivo"],interesse["origem"],widget.interesseID,1);
       interesses.add( p );
 
     }
@@ -126,13 +218,13 @@ class _PainelConteudoState extends State<PainelConteudo> {
     String origem = _origemController.text;
 
     if(interesse == null){
-      String url ="http://apipg.ddns.net/api/conteudo/inserir";
+      String url ="http://200.137.66.25:8080/api/conteudo/inserir";
       Map<String, dynamic> corpo = {'conteudo':conteudo,'linkArquivo':link,
         'origem':origem,'idInteresseAprendizagem': widget.interesseID.toString()};
       Navigator.pop(context);
       http.Response response = await http.post(url,body: corpo);
     }else{
-      String url ="http://apipg.ddns.net/api/conteudo/alterar";
+      String url ="http://200.137.66.25:8080/api/conteudo/alterar";
       Map<String, dynamic> corpo = {'id': interesse.idConteudo.toString(),'conteudo':conteudo,'linkArquivo':link,
         'origem':origem};
       Navigator.pop(context);
@@ -146,7 +238,7 @@ class _PainelConteudoState extends State<PainelConteudo> {
   }
 
   _remove(Conteudo conteudo) async{
-    String url ="http://apipg.ddns.net/api/conteudo/apagar/${conteudo.idConteudo}";
+    String url ="http://200.137.66.25:8080/api/conteudo/apagar/${conteudo.idConteudo}";
     Navigator.pop(context);
     http.Response response = await http.get(url);
     setState(() {});
@@ -235,7 +327,8 @@ class _PainelConteudoState extends State<PainelConteudo> {
                         child: ListTile(
                           title: Text("Conteudo :"),
                           subtitle: Text(
-                              "${post.conteudo} \nLink:\n${post.linkArquivo}\nOrigem:${post.origem}",
+                              //"${post.conteudo} \nLink:\n${post.linkArquivo}\nOrigem:${post.origem}",
+                              "${post.conteudo}",
                               textAlign: TextAlign.justify
                           ),
 

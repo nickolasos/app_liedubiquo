@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'duvidatemporaria/PainelDuvida.dart';
 import 'certezaprovisoria/PainelCerteza.dart';
 import 'conteudo/PainelConteudo.dart';
+import 'aprendizagem/PainelAprendizagem.dart';
+import 'recomendacao/PainelRecomendacao.dart';
 class PainelSecundario extends StatefulWidget {
   @override
   int memberID;
@@ -38,7 +40,21 @@ class _PainelSecundarioState extends State<PainelSecundario> {
     );
   }
   void _abrirRecomendacao(){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PainelRecomendacao(memberID:widget.memberID,username:widget.username,interesseID: widget.interesseID)
+        )
+    );
+  }
 
+  void _abrirAprendizagem(){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PainelAprendizagem(memberID:widget.memberID,username:widget.username,interesseID: widget.interesseID)
+        )
+    );
   }
 
   @override
@@ -64,22 +80,22 @@ class _PainelSecundarioState extends State<PainelSecundario> {
           children: <Widget>[
             //Image.asset("imagens/logo.png"),
             Padding(
-              padding: EdgeInsets.only(top: 32),
+              padding: EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   GestureDetector(
                     onTap: _abrirDuvidaTemporaria,
-                    child: Image.asset("imagens/duvida_temporaria.png",width: 150,
-                      height: 180,
+                    child: Image.asset("imagens/duvida_temporaria.png",width: 120,
+                      height: 100,
 
 
                     ),
                   ),
                   GestureDetector(
                     onTap: _abrirConteudo,
-                    child: Image.asset("imagens/conteudo.png",width: 150,
-                      height: 180,
+                    child: Image.asset("imagens/conteudo.png",width: 120,
+                      height: 100,
 
                     ),
                   )
@@ -87,27 +103,44 @@ class _PainelSecundarioState extends State<PainelSecundario> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 32),
+              padding: EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   GestureDetector(
                     onTap: _abrirCertezaProvisoria,
-                    child: Image.asset("imagens/certeza_provisoria.png",width: 150,
-                      height: 180,
+                    child: Image.asset("imagens/certeza_provisoria.png",width: 120,
+                      height: 100,
 
                     ),
                   ),
                   GestureDetector(
                     onTap: _abrirRecomendacao,
-                    child: Image.asset("imagens/recomendacao.png",width: 150,
-                      height: 180,
+                    child: Image.asset("imagens/recomendacao.png",width: 120,
+                      height: 100,
 
                     ),
                   )
                 ],
               ),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: _abrirAprendizagem,
+                    child: Image.asset("imagens/aprendizagem.png",width: 120,
+                      height: 100,
+
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+
           ],
         ),
       ),

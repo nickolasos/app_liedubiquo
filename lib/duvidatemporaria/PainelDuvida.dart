@@ -77,7 +77,7 @@ class _PainelDuvidaState extends State<PainelDuvida> {
   Future<List<DuvidaTemporaria>> recuperaInteresses() async{
 
     List<DuvidaTemporaria> lista = List();
-    String url_certa ="http://apipg.ddns.net/api/duvida/${widget.interesseID}";
+    String url_certa ="http://200.137.66.25:8080/api/duvida/${widget.interesseID}";
     http.Response response2 = await http.get(url_certa);
     //print(response2);
     var dadosJson2 = json.decode(response2.body);
@@ -98,12 +98,12 @@ class _PainelDuvidaState extends State<PainelDuvida> {
     String duvida = _descricaoSimplificadaController.text;
     String idPessoa = widget.memberID.toString();
     if(interesse == null){
-      String url ="http://apipg.ddns.net/api/duvida/inserir";
+      String url ="http://200.137.66.25:8080/api/duvida/inserir";
       Map<String, dynamic> corpo = {'idInteresseAprendizagem': widget.interesseID.toString(),'duvida':duvida};
       Navigator.pop(context);
       http.Response response = await http.post(url,body: corpo);
     }else{
-      String url ="http://apipg.ddns.net/api/duvida/alterar";
+      String url ="http://200.137.66.25:8080/api/duvida/alterar";
       Map<String, dynamic> corpo = {'id': interesse.idDuvidaTemporaria.toString(),'duvida':duvida};
       Navigator.pop(context);
       http.Response response = await http.post(url,body: corpo);
@@ -116,7 +116,7 @@ class _PainelDuvidaState extends State<PainelDuvida> {
     setState(() {});
   }
   _remove(DuvidaTemporaria duvida) async{
-    String url ="http://apipg.ddns.net/api/duvida/apagar/${duvida.idDuvidaTemporaria}";
+    String url ="http://200.137.66.25:8080/api/duvida/apagar/${duvida.idDuvidaTemporaria}";
     Navigator.pop(context);
     http.Response response = await http.get(url);
     setState(() {});

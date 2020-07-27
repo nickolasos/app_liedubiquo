@@ -17,6 +17,7 @@ class _LoginState extends State<Login> {
   //controllers
   TextEditingController _controllerUsername = TextEditingController();
   TextEditingController _controllerPassword = TextEditingController();
+  String _mensagemErro="";
 
   validadeMember() async{
 
@@ -28,7 +29,7 @@ class _LoginState extends State<Login> {
 
     Map<String, dynamic> corpo = {'email': username, 'password': password};
 
-    String url ="http://apipg.ddns.net/api/login";
+    String url ="http://200.137.66.25:8080/api/login";
 
 
 
@@ -39,11 +40,16 @@ class _LoginState extends State<Login> {
 
     if(resposta["email"]=="erro_credenciais"){
       print("Erro ao tentar logar...dados equivocados !!!");
+      setState((){
+        _mensagemErro = "Credenciais inválidas !!!";
+      });
 
     }else{
       await prefs.setInt("memberID", resposta["memberID"]);
       await prefs.setString("username", resposta["username"]);
-
+      setState((){
+        _mensagemErro = "";
+      });
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -139,6 +145,21 @@ class _LoginState extends State<Login> {
                         validadeMember();
                       }
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                  child: Center(
+                    child: Text(_mensagemErro,
+                        style: TextStyle(color: Colors.red, fontSize: 20)),
+                  ),
+                  /*)
+                  Image.asset(
+                    "imagens/learn2.jpg",
+                    width: 200,
+                    height: 150,
+                  ),
+                  */
+
                 )
               ],
             ),

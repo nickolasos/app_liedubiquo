@@ -5,7 +5,7 @@ import 'dart:convert';
 
 import '../Post.dart';
 import 'InteresseAprendizagem.dart';
-import 'package:speech_recognition/speech_recognition.dart';
+
 
 
 class InteresseAprendizagemLista extends StatefulWidget {
@@ -16,37 +16,13 @@ class InteresseAprendizagemLista extends StatefulWidget {
 class _InteresseAprendizagemListaState extends State<InteresseAprendizagemLista> {
   List _itens = [];
 
-  SpeechRecognition _speechRecognition;
+
   bool _isAvalable = false ;
   bool _isListening = false ;
   String resultText ="";
 
 
-  @override
-  void initState(){
-    super.initState();
-    initSpeechRecognizer();
-  }
 
-  void initSpeechRecognizer(){
-    _speechRecognition = SpeechRecognition();
-
-    _speechRecognition.setAvailabilityHandler(
-        (bool result) =>setState(()=>_isAvalable = result)
-    );
-    _speechRecognition.setRecognitionStartedHandler(
-        () =>setState(()=>_isListening = true)
-    );
-    _speechRecognition.setRecognitionResultHandler(
-            (String speech) =>setState(()=>resultText = speech)
-    );
-    _speechRecognition.setRecognitionCompleteHandler(
-            () =>setState(()=>_isListening = false)
-    );
-    _speechRecognition.activate().then(
-            (result) =>setState(()=>_isAvalable = result)
-    );
-  }
 
 
   void _carregarItens(){
@@ -61,7 +37,7 @@ class _InteresseAprendizagemListaState extends State<InteresseAprendizagemLista>
   Future<List<InteresseAprendizagem>> _recuperaInteresses() async{
 
     List<InteresseAprendizagem> lista = List();
-    String url_certa ="http://apipg.ddns.net/api/interesseaprendizagem";
+    String url_certa ="http://200.137.66.25:8080/api/interesseaprendizagem";
     String url ="https://jsonplaceholder.typicode.com/posts";
     print("nickolas");
     http.Response response = await http.get(url);
